@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<h1><%= recipe.title %></h1>
+<p><strong>By:</strong> <%= recipe.author %></p>
+<p><strong>Cuisine:</strong> <%= recipe.cuisine %></p>
+<p><strong>Meal Type:</strong> <%= recipe.meal_type %></p>
+<p><strong>Difficulty:</strong> <%= recipe.difficulty %></p>
+<p><strong>Cooking Time:</strong> <%= recipe.cooking_time %> mins</p>
+
+<!-- ⭐ Bookmark Button (Only if user logged in) -->
+<% if (user) { %>
+  <% if (recipe.isBookmarked) { %>
+    <form action="/bookmark/remove/<%= recipe.id %>" method="POST">
+      <button class="btn btn-secondary">★ Remove Bookmark</button>
+    </form>
+  <% } else { %>
+    <form action="/bookmark/add/<%= recipe.id %>" method="POST">
+      <button class="btn btn-primary">☆ Add Bookmark</button>
+    </form>
+  <% } %>
+<% } else { %>
+  <p><a href="/login">Login</a> to bookmark this recipe.</p>
+<% } %>
+
+<hr>
+
+<h3>Ingredients</h3>
+<ul>
+  <% ingredients.forEach(i => { %>
+    <li><%= i.name %></li>
+  <% }) %>
+</ul>
+
+<h3>Tags</h3>
+<p>
+  <% tags.forEach(t => { %>
+    <span class="tag"><%= t.name %></span>
+  <% }) %>
+</p>
+
+<h3>Instructions</h3>
+<p><%= recipe.instructions %></p>
+
+<h2>Comments</h2>
+
+<div class="comments">
+  <% if (comments.length === 0) { %>
+    <p>No comments yet.</p>
+  <% } else { %>
+    <% comments.forEach(comment => { %>
+      <div class="comment">
+        <strong><%= comment.username %></strong>
+        <p><%= comment.content %></p>
+        <small><%= new Date(comment.created_at).toLocaleString() %></small>
+
+        <% if (user && user.id === comment.user_id) { %>
+          <form action="/comments/<%= comment.id %>/delete" method="POST" style="display:inline;">
+            <button class="delete-comment">Delete</button>
+          </form>
+        <% } %>
+      </div>
+      <hr>
+    <% }) %>
+  <% } %>
+</div>
+
+<h3>Add a Comment</h3>
+
+<% if (user) { %>
+  <form action="/recipe/<%= recipe.id %>/comments" method="POST">
+    <textarea 
+      name="content" 
+      required 
+      placeholder="Write your comment..."
+      rows="3"></textarea>
+
+    <button type="submit">Post Comment</button>
+  </form>
+<% } else { %>
+  <p><a href="/login">Log in</a> to write a comment.</p>
+<% } %>
+
+<a href="/">← Back to recipes</a>
+
+<%- include('partials/footer') %>
+
+
+

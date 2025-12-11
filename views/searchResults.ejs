@@ -1,0 +1,11 @@
+<h1>Search results for "<%= query %>"</h1>
+
+<ul>
+  <% if (results.length === 0) { %>
+    <li>No recipes found</li>
+  <% } else { %>
+    <% results.forEach(recipe => { %>
+      <li><a href="/recipe/<%= recipe.id %>"><%= recipe.title %></a></li>
+    <% }) %>
+  <% } %>
+</ul>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Sharing Website</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<header>
+  <h2><a href="/">🍴 Recipe App</a></h2>
+  <hr>
+</header>
+
+<div class="header-bottom">
+  <div class="auth-buttons">
+    <% if (user) { %>
+      <span class="welcome-text">Logged in as: 
+        <strong><%= user.username %></strong>
+      </span>
+      <a href="/logout" class="btn-log">Logout</a>
+    <% } else { %>
+      <a href="/signup" class="btn-add-recipe">Sign Up</a>
+      <a href="/login" class="btn-add-recipe">Login</a>
+    <% } %>
+  </div>
+
+  <div class="search-container">
+    <form action="/search" method="GET" class="search-form">
+      <input type="text" name="q" placeholder="Search recipes..." required>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</div>
+
+

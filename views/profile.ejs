@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<div class="profile-container">
+
+  <h1>Welcome, <%= user.username %></h1>
+
+  <!-- Profile Card -->
+  <div class="profile-card">
+    
+    <div class="profile-picture">
+      <% if (user.profile_picture) { %>
+        <img src="<%= user.profile_picture %>" alt="Profile Picture">
+      <% } else { %>
+        <img src="/images/default-profile.png" alt="Default Profile Picture">
+      <% } %>
+    </div>
+
+    <div class="profile-details">
+      <p><strong>Email:</strong> <%= user.email %></p>
+      <p><strong>Account Created:</strong> <%= new Date(user.created_at).toDateString() %></p>
+    </div>
+  </div>
+
+  <!-- User Recipes -->
+  <h2>Your Recipes</h2>
+  <ul>
+    <% if (myRecipes.length === 0) { %>
+      <p>You haven't uploaded any recipes yet.</p>
+    <% } else { %>
+      <% myRecipes.forEach(recipe => { %>
+        <li><a href="/recipe/<%= recipe.id %>"><%= recipe.title %></a></li>
+      <% }) %>
+    <% } %>
+  </ul>
+
+  <!-- Bookmarked Recipes -->
+  <h2>Your Bookmarked Recipes</h2>
+  <ul>
+    <% if (bookmarks.length === 0) { %>
+      <p>No bookmarks yet.</p>
+    <% } else { %>
+      <% bookmarks.forEach(b => { %>
+        <li><a href="/recipe/<%= b.id %>"><%= b.title %></a></li>
+      <% }) %>
+    <% } %>
+  </ul>
+
+  <a class="btn btn-primary" href="/logout">Logout</a>
+
+</div>
+
+<%- include('partials/footer') %>
+
